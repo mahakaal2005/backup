@@ -1,0 +1,19 @@
+.Header {
+    background-color: #282c34;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    border-bottom: 2px solid #61dafb;
+}
+
+.Header h1 {
+    margin: 0 0 1rem 0;
+    font-size: 2rem;
+    color: #61dafb;
+}
+
+.Header.NavLinks {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}

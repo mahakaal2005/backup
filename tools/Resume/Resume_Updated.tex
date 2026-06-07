@@ -1,0 +1,208 @@
+%-------------------------
+% ATS-Optimized Resume
+% Author: Atul Kumar Singh
+%------------------------
+
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage[explicit]{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\usepackage{needspace}
+\setlength{\multicolsep}{-3.0pt}
+\setlength{\columnsep}{-1pt}
+\input{glyphtounicode}
+
+%----------FONT OPTIONS----------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1.19in}
+\addtolength{\topmargin}{-.7in}
+\addtolength{\textheight}{1.4in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\definecolor{HeadingBlue}{RGB}{43,85,140}
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\raggedright\large\bfseries\fontsize{12}{14}\selectfont\color{HeadingBlue}
+}{}{0em}{#1\hspace{0.5em}\leaders\vrule height 0.65ex depth -0.55ex\hfill\null}[\vspace{-5pt}]
+
+% Ensure PDF is machine readable/ATS friendly
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \textbf{\small #2} \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{1.001\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \textbf{\small #2}\\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    {\fontsize{18}{20}\selectfont\bfseries\color{HeadingBlue} Atul Kumar Singh} \\ \vspace{4pt}
+    \small \color{HeadingBlue}
+    \faMapMarker* Ghaziabad, Uttar Pradesh, India \quad|\quad 
+    \href{mailto:atul.k.singh5002@gmail.com}{\faEnvelope\ atul.k.singh5002@gmail.com} \quad|\quad 
+    \reflectbox{\faPhone}\ +91-9336474830 \\ \vspace{6pt}
+    \href{https://linkedin.com/in/atulkumarsingh5002}{\faLinkedin\ Atul Kumar Singh} \quad|\quad 
+    \href{https://github.com/mahakaal2005}{\faGithub\ mahakaal2005} \quad|\quad 
+    \href{https://leetcode.com/u/Atul5002/}{\faCode\ Atul5002}
+    \vspace{-14pt}
+\end{center}
+
+%-----------OBJECTIVE-----------
+\section{Objective}
+\small{Second-year Computer Science undergraduate (CGPA 8.91) specializing in Native Android Development with Kotlin, Jetpack Compose, and Clean Architecture. Proven ability to deliver production-grade Android and cross-platform mobile applications through freelance client work. Proficient in Data Structures \& Algorithms in Java. Seeking an Android Developer Internship to build impactful mobile experiences and grow alongside experienced engineers.}
+\vspace{2pt}
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Krishna Institute of Engineering and Technology (KIET)}{August 2024 -- May 2028}
+      {Bachelor of Technology in Computer Science and Engineering}{CGPA: 8.91 / 10}
+      \vspace{2pt}
+    \resumeSubheading
+      {Elpis Global School, Biswan, Sitapur}{2021 -- 2023}
+      {Senior Secondary (Class XII) -- Central Board of Secondary Education (CBSE)}{Percentage: 89.2\%}
+      \vspace{2pt}
+    \resumeSubheading
+      {Regency Public School, Sitapur}{2019 -- 2021}
+      {Secondary (Class X) -- Council for Indian School Certificate Examinations (CISCE)}{Percentage: 95.8\%}
+  \resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Programming Languages:}{ Java, Kotlin, Dart, Jetpack Compose} \vspace{3pt} \\
+     \textbf{Data Structures \& Algorithms:}{ Arrays, Linked Lists, Stacks, Queues, Trees, Graphs, Sorting, Searching, Dynamic Programming, Recursion} \vspace{3pt} \\
+     \textbf{Mobile Development:}{ Android (Jetpack Compose, XML), Flutter, Firebase, REST APIs} \vspace{3pt} \\
+     \textbf{Architecture \& Design Patterns:}{ MVVM, Repository Pattern, BLoC} \vspace{3pt} \\
+     \textbf{Tools \& Technologies:}{ Git, GitHub, Android Studio, VS Code, Gradle, Linux, Material Design 3} \vspace{3pt} \\
+    }}
+ \end{itemize}
+ \vspace{-12pt}
+
+%-----------PROJECTS-----------
+\section{Projects}
+    \vspace{-5pt}
+    \resumeSubHeadingListStart
+    
+      \resumeProjectHeading
+          {\textbf{FinTech Admin Panel} $|$ \emph{Freelance} $|$ \emph{Flutter, Dart, BLoC, Firebase} $|$ \href{https://github.com/mahakaal2005/FluenceApp.git}{\underline{GitHub}}}{Oct 2025 -- Dec 2025}
+          \resumeItemListStart
+            \resumeItem{Delivered production-ready cross-platform fintech management dashboard for client, serving as central management hub for cashback rewards, social features, and merchant services}
+            \resumeItem{Architected application using BLoC pattern, enabling scalable state management and clean separation of concerns}
+            \resumeItem{Integrated 7 backend microservices via REST APIs, handling 1000+ daily API calls with efficient error handling and caching}
+            \resumeItem{Implemented secure authentication flow using Firebase Auth with JWT tokens and encrypted local storage}
+          \resumeItemListEnd
+          \vspace{-13pt}
+          
+      \resumeProjectHeading
+          {\textbf{JobApp -- Job Portal Platform} $|$ \emph{Freelance} $|$ \emph{Flutter, Firebase, Provider} $|$ \href{https://github.com/mahakaal2005/Job-app.git}{\underline{GitHub}}}{Sep 2025 -- Nov 2025}
+          \resumeItemListStart
+            \resumeItem{Built and delivered complete job portal application for client with dual user roles (job seekers and employers)}
+            \resumeItem{Implemented real-time chat using Firebase Firestore with message delivery confirmation and read receipts}
+            \resumeItem{Developed search and filter functionality with optimized Firestore queries for fast job discovery}
+            \resumeItem{Integrated Firebase Authentication (Email/Google Sign-In) and Cloudinary for resume uploads}
+          \resumeItemListEnd 
+          \vspace{-13pt}
+          
+      \resumeProjectHeading
+          {\textbf{Health Assistant} $|$ \emph{Kotlin, Android, MVVM, Hilt, Gemini AI} $|$ \href{https://github.com/mahakaal2005/Health-Assistant}{\underline{GitHub}}}{Jun 2025 -- Aug 2025}
+          \resumeItemListStart
+            \resumeItem{Built Android health tracking app with step counting, prescription management, and health journaling using Kotlin}
+            \resumeItem{Integrated Google Gemini AI API for personalized health summaries, processing user data to generate insights}
+            \resumeItem{Implemented Clean Architecture with MVVM, using Hilt for DI and multi-module Gradle for scalability}
+            \resumeItem{Developed background step tracking service using Android sensors with Room database for offline persistence}
+          \resumeItemListEnd 
+          
+    \resumeSubHeadingListEnd
+\vspace{-8pt}
+
+%-----------ACTIVITIES-----------
+\section{Extracurricular Activities}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Coordinator, Android Domain}{September 2024 -- Present}
+      {Innogeeks Club, KIET Group of Institutions}{Ghaziabad, India}
+      \resumeItemListStart
+        \resumeItem{Instructing 200+ students in Native Android Development through regular, structured classes, code reviews, and hands-on guidance}
+      \resumeItemListEnd
+      \vspace{4pt}
+
+    \resumeSubheading
+      {Organizing Team Member}{October 2024}
+      {NASA Space Apps Challenge 2025, KIET}{Ghaziabad, India}
+      \resumeItemListStart
+        \resumeItem{Co-organized campus edition of NASA Space Apps Challenge, coordinating mentors and 48-hour event logistics}
+      \resumeItemListEnd
+      
+  \resumeSubHeadingListEnd
+\vspace{-8pt}
+
+%-----------ACHIEVEMENTS-----------
+\section{Achievements}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+     \small{\item{
+      $\bullet$ Maintained 8.91 CGPA (Top 5\% of class) while actively contributing to technical projects and leadership roles \\
+     }}
+ \end{itemize}
+
+\end{document}

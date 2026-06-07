@@ -1,0 +1,22 @@
+Difference b/w var,let and const:-
+    1->let and const have block scope while var has function scope(by defaut js files are functions only 
+    so function scope means they are available across the whole js file but not cross files).
+
+    2->let and var are mutable while const is immutable
+
+    3->var allows hoisting while let and const does not , you need to declare before accessing;
+
+
+In JS null is also an object data type;
+
+There is no concept of default value in JS not even null;
+
+console.log(5=='5');  //gives true because it only compares values
+console.log(5==='5'); //gives false because it compares first data type and if same then values;
+
+we use while loop when we want to do odd looping(i.e.,we do not know how many times we wanna iterate priorly) this is 
+the basic Difference between while and for loop;
+
+for loop does not have optimized control whereas while and do while has;
+
+In case we were returning the value bt not storing it anywhere so it was getting stored in a stack and not getting destroyed;

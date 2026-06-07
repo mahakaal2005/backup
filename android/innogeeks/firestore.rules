@@ -1,0 +1,53 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection
+    match /users/{userId} {
+      // Users can read their own data
+      allow read: if request.auth != null && request.auth.uid == userId;
+      
+      // Users can update their own profile (but not role or regId)
+      allow update: if request.auth != null 
+                    && request.auth.uid == userId
+                    && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'regId']);
+      
+      // Only authenticated users can create (for initial setup)
+      // TODO: Restrict to admin/coordinator roles later
+      allow create: if request.auth != null;
+      
+      // Only the user themselves can delete their account
+      allow delete: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Attendance records collection (future)
+    match /attendance/{recordId} {
+      // All authenticated users can read attendance
+      allow read: if request.auth != null;
+      
+      // Only coordinators and core team can write
+      // TODO: Implement role-based access control
+      allow write: if request.auth != null;
+    }
+    
+    // Events collection (future)
+    match /events/{eventId} {
+      // All users (including guests) can read public events
+      allow read: if true;
+      
+      // Only coordinators and core team can write
+      // TODO: Implement role-based access control
+      allow write: if request.auth != null;
+    }
+    
+    // Resources collection (future)
+    match /resources/{resourceId} {
+      // All authenticated users can read resources
+      allow read: if request.auth != null;
+      
+      // Only coordinators and core team can write
+      // TODO: Implement role-based access control
+      allow write: if request.auth != null;
+    }
+  }
+}

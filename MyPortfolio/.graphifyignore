@@ -1,0 +1,14 @@
+# .graphifyignore — MyPortfolio (Vite/React)
+node_modules/
+dist/
+build/
+.git/
+graphify-out/
+.agents/
+.agent/
+*.lock
+*.min.js
+*.min.css
+coverage/
+.cache/
+public/

@@ -1,0 +1,82 @@
+<resources>
+    <string name="app_name">Innogeeks</string>
+    
+    <!-- Login Screen -->
+    <string name="login_welcome">Welcome back,</string>
+    <string name="login_agent">Agent.</string>
+    <string name="login_sign_in_coordinator">Sign in as Coordinator (Mock)</string>
+    <string name="login_sign_in_member">Sign in as Member (Mock)</string>
+    <string name="login_test_mismatch">Test Email Mismatch</string>
+    <string name="login_continue_guest">Continue as Guest</string>
+    <string name="login_terms">By logging in, you agree to Club Protocols.</string>
+    
+    <!-- RegID Recovery -->
+    <string name="recovery_title">Identity Verification</string>
+    <string name="recovery_description">We couldn\'t find your email. Enter your University Registration ID.</string>
+    <string name="recovery_reg_id_label">Registration ID</string>
+    <string name="recovery_reg_id_placeholder">e.g., 2200001</string>
+    <string name="recovery_found_hint">Account found: %1$s</string>
+    <string name="recovery_verify">Verify</string>
+    <string name="recovery_continue_login">Continue to Login</string>
+    <string name="login_found_account">Account found: %1$s</string>
+    
+    <!-- Placeholder Screen -->
+    <string name="coming_soon">Coming Soon</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_resources">Resources</string>
+    <string name="nav_events">Events</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_attendance">Attend</string>
+    <string name="nav_analytics">Analytics</string>
+    <string name="nav_members">Members</string>
+    
+    <!-- Content Descriptions -->
+    <string name="cd_loading">Loading</string>
+    
+    <!-- Dashboard -->
+    <string name="dashboard_attended">Attended</string>
+    <string name="dashboard_total_classes">Total Classes</string>
+    <string name="dashboard_coordinator_title">Coordinator Dashboard</string>
+    <string name="dashboard_log_attendance">Log Attendance</string>
+    <string name="dashboard_students">Students</string>
+    <string name="dashboard_classes">Classes</string>
+    <string name="dashboard_last_topic">Last Topic</string>
+    <string name="dashboard_core_title">Core Team Overview</string>
+    <string name="dashboard_total_members">Total Members</string>
+    <string name="dashboard_first_year">1st Year Attendance</string>
+    <string name="dashboard_second_year">2nd Year Attendance</string>
+    <string name="dashboard_guest_title">Welcome to Innogeeks</string>
+    <string name="dashboard_guest_subtitle">Login to access all features</string>
+    
+    <!-- Attendance -->
+    <string name="attendance_title">Take Attendance</string>
+    <string name="attendance_event_label">Session</string>
+    <string name="attendance_select_event">Select a session</string>
+    <string name="attendance_students">Students (Most Present First)</string>
+    
+    <!-- Resources -->
+    <string name="resources_search_placeholder">Search resources…</string>
+    <string name="resources_empty">No resources found</string>
+    
+    <!-- Events -->
+    <string name="events_title">Upcoming Events</string>
+    <string name="events_empty">No events scheduled</string>
+    
+    <!-- Profile -->
+    <string name="profile_role">Role</string>
+    <string name="profile_domain">Domain</string>
+    <string name="profile_year">Year</string>
+    <string name="profile_reg_id">Reg ID</string>
+    <string name="profile_logout">Logout</string>
+    <string name="profile_delete_account">Delete Account</string>
+    <string name="profile_delete_title">Delete Account?</string>
+    <string name="profile_delete_message">This action cannot be undone. All your data will be permanently deleted.</string>
+    <string name="profile_delete_confirm">Delete</string>
+    <string name="profile_delete_cancel">Cancel</string>
+    
+    <!-- Guest Restriction -->
+    <string name="guest_restriction_title">Login Required</string>
+    <string name="guest_restriction_message">Please login to access %1$s. This feature is available for club members only.</string>
+</resources>

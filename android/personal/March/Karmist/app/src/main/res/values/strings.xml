@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Karmist</string>
+    <string name="add_karm">Add Karm</string>
+    <string name="edit_karm">Edit Karm</string>
+    <string name="save_karm">Save Karm</string>
+    <string name="karm_description_hint">Enter karm description…</string>
+    <string name="karm_label">Description</string>
+    <string name="back_button_content_description">Back</string>
+</resources>

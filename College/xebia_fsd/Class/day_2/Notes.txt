@@ -1,0 +1,7 @@
+=>const variables can be mutatated but not reassigned so they are mutable but we can not reassign them completely;
+
+=>function greet(name){
+    console.log(`Hello ${name}`)
+}                                       ;
+
+=>It is a best practice to use for-in loop when working with objects and for-each when working with arrays;

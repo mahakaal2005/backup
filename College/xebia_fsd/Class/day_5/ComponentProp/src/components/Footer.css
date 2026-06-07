@@ -1,0 +1,18 @@
+.Footer {
+    background-color: #282c34;
+    color: white;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    border-top: 2px solid #61dafb;
+    margin-top: 3rem;
+}
+
+.Footer p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+.Footer.para {
+    margin: 0;
+}
+

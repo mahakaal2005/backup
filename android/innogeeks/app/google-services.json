@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "179537754890",
+    "project_id": "innogeeks-4b323",
+    "storage_bucket": "innogeeks-4b323.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179537754890:android:a2bacad8f2532e96ea98f3",
+        "android_client_info": {
+          "package_name": "com.example.innogeeks.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "179537754890-aq5idsueblfdolmdvpd73072l9ok7rjv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.innogeeks.app",
+            "certificate_hash": "6dffda1e3e9541fb76119c010b1530acb6bf2263"
+          }
+        },
+        {
+          "client_id": "179537754890-03rporce0qj79s2r1ki8l6hvra3vjmod.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2r_F-zk3UyWzNvhHRSE4np9thcj4GoGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "179537754890-03rporce0qj79s2r1ki8l6hvra3vjmod.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,197 @@
+/* ============================================================
+   CommitmentCard — Compact Summary Card
+   ============================================================ */
+
+/* ----- Compact card base ----- */
+.commitment-card-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.25rem 1.25rem 1rem;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  position: relative;
+  outline: none;
+}
+
+.commitment-card-compact:hover,
+.commitment-card-compact:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  border-color: var(--brand-primary);
+}
+
+.commitment-card-compact:active {
+  transform: translateY(-1px);
+}
+
+/* Top row */
+.ccc-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ccc-status {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+}
+
+.ccc-status.status--ok {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--success);
+}
+
+.ccc-status.status--checkin {
+  background: rgba(139, 92, 246, 0.12);
+  color: #a78bfa;
+}
+
+.ccc-status.status--pending {
+  background: rgba(225, 29, 72, 0.12);
+  color: var(--danger);
+  animation: badge-pulse 2s infinite;
+}
+
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.55; }
+}
+
+/* Goal */
+.ccc-goal {
+  font-size: 1.05rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  /* clamp to 2 lines max */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Sacrifice */
+.ccc-sacrifice {
+  font-size: 0.825rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ccc-label {
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  margin-right: 0.25rem;
+}
+
+/* Stakes pills */
+.ccc-stakes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.ccc-pill {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.ccc-pill--fail { background: rgba(225, 29, 72, 0.08); color: var(--danger); }
+.ccc-pill--win  { background: rgba(16, 185, 129, 0.08); color: var(--success); }
+
+/* Footer */
+.ccc-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.ccc-mini-countdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.ccc-countdown-val {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.ccc-countdown-lbl {
+  font-size: 0.67rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ccc-judgment-cta {
+  font-size: 0.8rem;
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.ccc-arrow {
+  font-size: 1rem;
+  color: var(--text-muted);
+  transition: transform 0.2s, color 0.2s;
+}
+
+.commitment-card-compact:hover .ccc-arrow,
+.commitment-card-compact:focus-visible .ccc-arrow {
+  transform: translateX(4px);
+  color: var(--brand-primary);
+}
+
+/* Pending glow */
+@keyframes pulse-border {
+  0%   { box-shadow: 0 0 0 0 var(--glow-danger); border-color: var(--danger); }
+  70%  { box-shadow: 0 0 0 10px rgba(230, 57, 70, 0); border-color: var(--danger); }
+  100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); border-color: var(--border-subtle); }
+}
+
+.pending-glow {
+  animation: pulse-border 2s infinite;
+  background: linear-gradient(145deg, rgba(230, 57, 70, 0.05) 0%, var(--bg-surface) 100%);
+}
+
+/* Needs check-in */
+.commitment-card-compact.needs-checkin {
+  border-color: rgba(139, 92, 246, 0.4);
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.1);
+}
+
+/* Light-theme overrides */
+[data-theme='light'] .commitment-card-compact {
+  border-radius: 4px;
+}
+
+/* Delete button */
+.btn-delete {
+  font-size: 1rem;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+  padding: 0;
+  line-height: 1;
+}
+.btn-delete:hover { opacity: 1; }

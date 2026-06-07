@@ -1,0 +1,22 @@
+.header {
+	padding: 16px 0;
+	margin-bottom: 16px;
+    background-color: antiquewhite;
+}
+
+.header-title {
+	margin: 0 0 12px;
+	text-align: center;
+    color: darkblue;
+}
+
+.header-nav {
+	display: flex;
+	justify-content: center;
+	gap: 24px;
+}
+
+.header-link {
+	text-decoration: none;
+	color: darkblue;
+}

@@ -1,386 +1,380 @@
 const OpenAI = require('openai');
 
 // ============================================================================
-// GROQ SERVICE - Free, Fast LLM API with Enhanced Prompts
+// GROQ SERVICE - Research-backed prompt engineering
 // ============================================================================
 
-const groq = new OpenAI({
-   apiKey: process.env.GROQ_API_KEY,
-   baseURL: 'https://api.groq.com/openai/v1'
-});
+// ============================================================================
+// SYSTEM INSTRUCTION
+// ============================================================================
+const SYSTEM_INSTRUCTION = `You write social media announcement posts for a YouTube programming educator announcing their latest videos.
+
+CREATOR CONTEXT:
+This creator makes educational programming videos — DSA, Java, algorithms, CS fundamentals, problem-solving — targeted at beginners and intermediate developers.
+After uploading, they need LinkedIn and YouTube Community posts that drive views by communicating real learning value, not hype.
+
+THE JOB:
+Make the right person stop scrolling and click to watch. Do this through SPECIFICITY and genuine educational value — not hype, not announcements, not buzzwords.
+
+WHAT GREAT CREATOR ANNOUNCEMENT POSTS DO:
+- Hook with a specific pain point, misconception, or question that THIS video directly answers
+- Give 2-3 lines of real educational value upfront — a taste of what they will learn, specific to this video's topic
+- Name the EXACT concept being taught — not "DSA basics" but "why skipping flowcharts before writing code triples your debugging time"
+- End with a genuine question that the target audience actually debates or struggles with
+- Sound like a knowledgeable developer-educator, not a content marketer
+
+WHAT TERRIBLE POSTS DO (NEVER do these):
+- "Just uploaded!" / "New video alert!" / "Check out my latest" — zero value, pure announcement
+- "In this video, I cover..." — describes instead of teaches
+- "I'm excited/thrilled to share" — nobody cares about your feelings about your own content
+- "Drop a ❤️" / "Tag a friend" / "Comment if you agree" — engagement bait
+- Vague hooks: "This is important" / "You need to know this" / "This changes everything"
+- Put "[See More]" anywhere in the text — NEVER write this
+- More than 4-5 hashtags
+
+THE SPECIFICITY RULE:
+Extract ACTUAL concepts from the video title and description. Teach them in 2-3 lines.
+The post is the appetizer. The video is the meal. But the appetizer must taste real.
+
+Bad: "This video covers programming fundamentals."
+Good: "Most beginners write code before they've actually solved the problem. That's why their first attempt always needs a full rewrite. Flowcharts force you to solve it on paper before you touch the keyboard."
+
+THE HOOK RULE:
+LinkedIn cuts posts at ~210 characters. Those first 2 lines ARE the entire bet.
+They must create such specific curiosity or touch such a real nerve that NOT clicking feels uncomfortable.
+
+VOICE:
+Knowledgeable educator who is also a developer. Confident, direct, slightly opinionated.
+Not a marketer. Not a corporate account. A developer who genuinely helps people learn programming.
+Writes like someone who has debugged their own code at 2am, not someone who read a content strategy guide.`;
 
 // ============================================================================
-// SYSTEM INSTRUCTION - Expert Viral Copywriter Persona
+// HOOK FRAMEWORKS
 // ============================================================================
-const SYSTEM_INSTRUCTION = `You are an elite viral social media copywriter with 10+ years of experience.
-Your goal is to write content that sounds authentic and human while driving maximum engagement.
+const HOOK_FRAMEWORKS = `
+HOOK OPTIONS — pick what fits the video's content naturally, don't force it:
 
-CORE PRINCIPLES:
-1. Every post MUST start with a powerful hook.
-2. Use proven viral formulas based on psychological triggers:
-   - Curiosity Gap: Humans hate incomplete information (Zeigarnik Effect)
-   - Unexpected Truth: Pattern interrupts capture attention
-   - Direct Question: Engages the brain's response mechanism
-   - Social Proof: Leverages authority and consensus
-3. Keep paragraphs short (1-3 lines max) for mobile readability.
-4. End with a clear call-to-action that lowers friction.
-5. STRICTLY ADHERE to any provided "User Style Rules".
-6. AVOID excessive emojis - use them sparingly (max 2-3 per post) and only when they add genuine value.
-7. Write like a real person, not like AI - avoid formulaic patterns and overly enthusiastic language.
-8. NO META-SUMMARIES: Do not say "In this video I share..." or "I dive into details...". Instead, TEACH the specific insight directly. Be specific, not descriptive.
-9. SPECIFICITY RULE: If the video description is vague, do NOT write fluff. Instead, maintain authority by asking a deep, specific question or stating a strong opinion about importance of the topic.
+A. PAIN POINT HOOK — open with the exact frustration this video resolves
+"Every beginner hits [specific wall]. Here's the way past it:"
 
-PLATFORM ALGORITHM UNDERSTANDING:
-- LinkedIn: Rewards longer engagement time (1300-2000 chars optimal), comments, and shares
-- YouTube Community: Rewards quick reactions, likes, and immediate engagement`;
+B. MISCONCEPTION HOOK — correct a wrong assumption about this topic
+"Most people learning [topic from video] think [X]. That assumption is why they get stuck. The real model is:"
 
-// ============================================================================
-// VIRAL HOOK FORMULAS
-// ============================================================================
-const HOOK_FORMULAS = `
-VIRAL HOOK FORMULAS (choose based on content type):
+C. QUESTION HOOK — ask the exact question this video answers
+"Do you [do X] before [doing Y]? That's probably why [bad outcome] keeps happening."
 
-PROVEN PATTERNS:
-1. UNEXPECTED TRUTH: "Most people think X... but the opposite is true"
-   → Use for: Contrarian insights, myth-busting
-   
-2. CURIOSITY GAP: "There's ONE thing that changed everything for me. Here it is:"
-   → Use for: Tutorials, transformations, discoveries
-   
-3. FAST REWARD: "Here's something you can use in the next 10 minutes"
-   → Use for: Quick tips, actionable advice
-   
-4. DIRECT QUESTION: "Have you ever wondered why X happens?"
-   → Use for: Educational content, problem-solving
-   
-5. CONFESSION: "I used to believe X. I was completely wrong."
-   → Use for: Personal growth, lessons learned
-   
-6. BOLD STATEMENT: "Stop doing X. It's killing your Y."
-   → Use for: Warnings, course corrections
+D. CONTRAST HOOK — show before/after of understanding this concept
+"Without understanding [concept]: [specific bad outcome]. With it: [specific good outcome]."
 
-NEW ADDITIONS:
-7. PATTERN INTERRUPT: "Everyone's talking about X. Nobody's talking about Y."
-   → Use for: Unique perspectives, underrated topics
-   
-8. SOCIAL PROOF: "I analyzed 100 top performers and found this pattern:"
-   → Use for: Data-driven insights, research findings
-   
-9. SCARCITY/URGENCY: "This window closes in 48 hours:"
-   → Use for: Time-sensitive content, limited offers
-   
-10. CONTROVERSY/HOT TAKE: "Unpopular opinion: X is overrated."
-   → Use for: Debate-worthy topics, strong opinions
-   
-11. PERSONAL VULNERABILITY: "I failed at X three times before learning this:"
-   → Use for: Authentic stories, relatability
-   
-12. DATA-DRIVEN: "73% of people don't know this about X:"
-   → Use for: Statistics, surprising facts
+E. BOLD OPINION HOOK — take a real stance about the topic or how it's usually taught
+"Most tutorials teach [topic] backwards. They start with [X]. They should start with [Y]."
+
+F. SERIES CONTEXT HOOK — position the video in a learning journey
+"[This concept] is the thing beginners skip in week 1 and spend 10x the time confused about in week 5."
+
+G. OUTCOME HOOK — state the exact skill the viewer will have after watching
+"After this video, you will be able to [specific task] without [specific common struggle]."
 `;
 
 // ============================================================================
-// ANTI-PATTERNS - What NOT to do
+// PLATFORM RULES
 // ============================================================================
-const ANTI_PATTERNS = `
-AVOID THESE COMMON MISTAKES:
-
-❌ TOO SALESY:
-"🚨 LIMITED TIME OFFER! Buy my course NOW! Link in bio! 🔥"
-→ Why it fails: Pure promotion with no value
-
-❌ VAGUE CLICKBAIT:
-"This one trick changed my life... you won't believe what happened next!"
-→ Why it fails: No substance, broken promises
-
-❌ OVERUSED CLICHÉS:
-"Unlock the secret to success! Game-changer! Think outside the box!"
-→ Why it fails: Sounds robotic, not authentic
-
-❌ TOO LONG WITHOUT BREAKS:
-"I want to share something really important with you today that I've been thinking about for a while..."
-→ Why it fails: Wall of text, mobile-unfriendly
-
-❌ EMOJI SPAM:
-"🚀🔥💯 NEW VIDEO 🎉🎊✨ Check it out! 👀💪🙌"
-→ Why it fails: Looks desperate, hard to read
-
-PLATFORM-SPECIFIC DON'TS:
-LinkedIn:
-- Don't use 10+ hashtags (looks spammy)
-- Don't post pure promotional content
-- Don't ignore comments (algorithm penalty)
-
-YouTube Community:
-- Don't write essays (keep it concise)
-- Don't post without engaging with comments
-- Don't forget to link the video
-`;
-
-// ============================================================================
-// PLATFORM-SPECIFIC BEST PRACTICES
-// ============================================================================
-const PLATFORM_BEST_PRACTICES = `
-PLATFORM-SPECIFIC BEST PRACTICES:
-
+const PLATFORM_RULES = `
 LINKEDIN:
-- Optimal length: 1300-2000 characters (algorithm sweet spot)
-- Hashtags: 3-5 relevant hashtags (mix broad + niche)
-- Structure: Hook → Story/Value → Insight → Question/CTA
-- Line breaks: Every 2-3 lines for readability
-- End with a question to drive comments (algorithm boost)
-- First 2 lines are preview - make them count!
+- 1,200–1,900 characters is the sweet spot. Not shorter. Not much longer.
+- Short paragraphs. Max 2-3 lines then white space. People read on phones.
+- Hashtags go at the very end, after everything else. 3-5 max, relevant to the actual topic.
+- End with a specific question your audience has real opinions about. Not "what do you think?" — too vague.
+  Good: "What was the thing that made DSA actually click for you?"
+  Bad: "What do you think about this? Let me know in the comments!"
+- LINK PLACEMENT: {LINK_INSTRUCTION}
 
 YOUTUBE COMMUNITY:
-- Optimal length: 50-150 words (quick read)
-- Always include video link in the post body
-- Use 1-2 emojis max (platform is visual already)
-- Post timing: Within 1 hour of video upload for max reach
-- Encourage specific actions: "Watch at 3:45 for the best part"
-- Consider poll opportunities for engagement
+- 80-180 words. Quick, direct, feels like a message to a friend.
+- Always include the video URL.
+- 1-2 emojis max.
+- Ask something specific about the video — not "did you watch it?"
 `;
 
 // ============================================================================
-// FEW-SHOT EXAMPLES - High-performing post samples for each tone
+// FEW-SHOT EXAMPLES — clean posts, NO "[See More]" text, human voice
 // ============================================================================
 const FEW_SHOT_EXAMPLES = {
-   Professional: {
-      linkedin: `Example Professional LinkedIn Post:
+    Professional: {
+        linkedin: `EXAMPLE — Professional LinkedIn (STUDY STRUCTURE + VOICE ONLY. Your post must be about the actual video below, NOT about binary search):
 ---
-I used to think networking was about collecting business cards.
+Most beginners think binary search is just "a faster way to find things in a list."
 
-Then I realized: the most successful people don't network UP. They network AROUND.
+That undersells it — and means they never know when to reach for it.
 
-Here's what changed my perspective:
+Binary search works because it makes a guarantee: every comparison eliminates exactly half the remaining possibilities. Not some. Half. Always.
 
-A junior colleague introduced me to someone who became my biggest client. Not at a fancy event—at a random coffee chat.
+That's why it's O(log n). Not because someone decided it — because the math of halving forces it.
 
-The lesson? Your next opportunity is probably 2 degrees away, hidden in someone you'd never expect.
+Once you understand that, you stop memorizing "use binary search on sorted arrays" and start recognizing the pattern wherever it appears: in databases, in version control bisect, in any system where you can ask yes/no questions about ordered data.
 
-3 ways to network around (not up):
-• Help someone with no obvious ROI
-• Attend events outside your industry
-• Ask your team who THEY know
+Episode 4 of my DSA in Java series covers this with full implementations and the two bugs that catch 90% of beginners.
 
-Who's someone unexpected that opened a door for you?
+What's the algorithm that finally clicked for you once you understood the WHY, not just the what?
 
-#Networking #CareerGrowth #ProfessionalDevelopment
+#DSA #Java #Algorithms #Programming
+
+(Link in first comment 👇)
 ---`,
-      youtube: `Example Professional YouTube Post:
+        youtube: `EXAMPLE — Professional YouTube Community (STUDY STRUCTURE ONLY — write about the actual video, not binary search):
 ---
-Just published a comprehensive breakdown you've been asking for.
+Episode 4 is live — Binary Search in Java.
 
-This video covers everything you need to know, with timestamps in the description.
+Not just how to write it. Why it works, where the two classic bugs hide, and when to actually reach for it vs. linear search.
 
-Would love to hear which section was most valuable for you.
+https://www.youtube.com/watch?v=EXAMPLE
+
+Timestamps in the description. Questions below 👇
 ---`
-   },
-   Casual: {
-      linkedin: `Example Casual LinkedIn Post:
+    },
+    Casual: {
+        linkedin: `EXAMPLE — Casual LinkedIn (STUDY STRUCTURE + VOICE ONLY. Write about the actual video below, NOT about arrays):
 ---
-ok real talk 🙋‍♂️
+I used to think "just use an ArrayList" was always the right answer in Java.
 
-i've been doing this thing wrong for YEARS and nobody told me lol
+It worked. Until I had to care about performance.
 
-turns out the secret isn't working harder... it's actually stupidly simple
+Arrays give you O(1) access because every element sits at a known, fixed offset from the start. base_address + (index × size). One calculation. Done. No searching.
 
-just watched this video and my mind is lowkey blown 🤯
+ArrayList wraps this, but adds overhead you don't always see: resizing, boxing for primitives, extra memory for capacity.
 
-anyone else ever had that moment where you're like "wait... THAT'S IT??"
+Knowing when you actually need the ArrayList overhead vs. when a plain array is cleaner — that's the kind of thing nobody teaches you directly. It just clicks when you understand what's underneath.
 
-drop a 👇 if you can relate haha
+Covered this in my latest episode with real benchmarks.
 
-#RealTalk #LessonsLearned
+What Java "always just use X" habit did you have to unlearn?
+
+#Java #DSA #Programming #LearningInPublic
+
+(Video in first comment 👇)
 ---`,
-      youtube: `Example Casual YouTube Post:
+        youtube: `EXAMPLE — Casual YouTube Community (STUDY STRUCTURE ONLY — write about the actual video, not arrays):
 ---
-new vid is up!! 🎉
+New episode is up — Arrays in Java 🎯
 
-honestly pretty proud of this one ngl
+Not the boring "here's how to declare one" version. The actual mechanics: why they're fast, how memory layout drives everything, and when ArrayList is worse than you think.
 
-go check it out and lmk what you think in the comments 💬
+https://www.youtube.com/watch?v=EXAMPLE
+
+What do you want in the next episode? 👇
 ---`
-   },
-   Engaging: {
-      linkedin: `Example Engaging LinkedIn Post:
+    },
+    Engaging: {
+        linkedin: `EXAMPLE — Engaging LinkedIn (STUDY STRUCTURE + VOICE ONLY. Write about the actual video below, NOT about recursion):
 ---
-I asked 100 top performers one question: "What's your unfair advantage?"
+Most tutorials introduce recursion and immediately show you the factorial example.
 
-The #1 answer shocked me.
+That's the worst possible introduction.
 
-It wasn't talent, luck, or connections.
+Factorial is not a problem that needs recursion. You'd never write it recursively in production. Starting with it teaches you the syntax of recursion without teaching you WHY recursion exists.
 
-It was this: "I show up when I don't feel like it."
+Recursion exists because some problems are naturally self-similar. A file system is a directory that contains directories. A tree is a node that contains nodes. Flattening these with iteration forces you to manually manage what recursion gives you for free.
 
-That's it. Consistency beats intensity. Every single time.
+When you see it that way, recursion stops feeling like a trick and starts feeling like the obvious tool.
 
-Here's the challenge:
-For the next 30 days, do ONE thing daily that moves the needle.
+New episode covers this — with examples where recursion genuinely wins.
 
-Comment "30" if you're in.
+What's the concept in your CS learning that made you think "why didn't anyone explain it this way first"?
 
-#Success #Mindset #GrowthMindset
+#DSA #Java #CS #Programming
+
+(Link in first comment 👇)
 ---`,
-      youtube: `Example Engaging YouTube Post:
+        youtube: `EXAMPLE — Engaging YouTube Community (STUDY STRUCTURE ONLY — write about the actual video, not recursion):
 ---
-This video is different.
+New episode — and it's the one most courses get completely wrong.
 
-I've never shared this before, but it's time.
+Recursion. Not the factorial example you've seen a hundred times. The actual reason recursion exists and when it genuinely beats iteration.
 
-Watch it now - you won't look at things the same way.
+https://www.youtube.com/watch?v=EXAMPLE
 
-Let me know what you think in the comments.
+Watch the first 8 minutes. Tell me if it reframes how you think about it. 🎯
 ---`
-   },
-   Technical: {
-      linkedin: `Example Technical LinkedIn Post:
+    },
+    Technical: {
+        linkedin: `EXAMPLE — Technical LinkedIn (STUDY STRUCTURE + VOICE ONLY. Write about the actual video below, NOT about time complexity):
 ---
-Here's a pattern that reduced our API latency by 73%.
+O(n) and O(n²) aren't just labels. They're predictions.
 
-The problem: N+1 queries killing our response times.
+O(n): double the input, double the time.
+O(n²): double the input, quadruple the time.
+O(log n): double the input, add one step.
 
-The solution: DataLoader + strategic caching.
+Where it gets practical: a bubble sort on 1,000 elements takes ~1M operations. On 10,000 elements — 100M. On 100,000 — 10 billion. At that point, your "working" algorithm becomes unusable.
 
-Implementation details:
-→ Batch requests by entity type
-→ Cache at the resolver level
-→ Invalidate on mutation
+This is why choosing the right algorithm isn't academic. In Java, the difference between Arrays.sort() (O(n log n)) and a naive nested loop (O(n²)) on 100k elements is the difference between milliseconds and minutes.
 
-Key metrics after deployment:
-• P95 latency: 450ms → 120ms
-• Database queries: -68%
-• User complaints: -91%
+Episode 3 breaks down how to read and calculate time complexity from first principles — not just memorize the Big O table.
 
-Full technical walkthrough in the video with code examples.
+What was the largest dataset that made you regret a naive algorithm choice?
 
-Have you implemented DataLoader in your stack? What challenges did you face?
+#DSA #Java #Algorithms #SoftwareEngineering
 
-#Engineering #Backend #Performance #GraphQL
+(Deep-dive in first comment 👇)
 ---`,
-      youtube: `Example Technical YouTube Post:
+        youtube: `EXAMPLE — Technical YouTube Community (STUDY STRUCTURE ONLY — write about the actual video, not Big O):
 ---
-New technical deep-dive published.
+Episode 3 is live — Time Complexity & Big O Notation.
 
-Covers: architecture decisions, implementation details, edge cases.
+Specifically:
+→ How to derive Big O from code (not just look it up)
+→ Why constants and lower terms get dropped
+→ Practical impact: when complexity actually matters in Java
 
-Timestamps in description. Code examples included.
+Timestamps in description.
 
-Questions? Drop them below.
+https://www.youtube.com/watch?v=EXAMPLE
+
+Questions in comments — I'll cover them in Episode 4.
 ---`
-   }
+    }
 };
 
-async function generatePostsWithGroq(videoData, tone = 'Professional', length, hashtags, historyExamples = [], linkedinCount = 1, youtubeCount = 1) {
-   try {
-      // Get few-shot examples for this tone
-      const examples = FEW_SHOT_EXAMPLES[tone] || FEW_SHOT_EXAMPLES.Professional;
+// ============================================================================
+// MOCK DATA (used when no API key is available)
+// ============================================================================
+const generateMockPosts = (videoData, tone, linkedinCount = 1, youtubeCount = 1, linkInComments = false) => {
+    const title = videoData.title || 'Untitled Video';
+    const topic = videoData.tags?.[0] || 'programming';
+    const description = videoData.description || '';
+    const descHint = description.split(/[.\n]/)[0]?.trim() || title;
+    const url = videoData.url || '[link]';
 
-      // Build user history section if available
-      let userHistorySection = '';
-      if (historyExamples && historyExamples.length > 0) {
-         userHistorySection = `
-RECENT USER POSTS (for reference - maintain similar style):
-${historyExamples.map((ex, i) => `
-Example ${i + 1} (${ex.platform}):
-${ex.generated_post}
-`).join('\n')}
+    const linkedinPost = `[Note: AI generation failed — this is placeholder content]\n\nThis post is about: "${title}"\n\n${descHint}\n\nVideo: ${url}\n\n#${topic.replace(/\s+/g, '')} #Programming`;
+    const youtubePost = `"${title}" is live.\n\n${descHint}\n\n${url}\n\nQuestions in the comments 👇`;
+
+    return {
+        linkedin: Array(linkedinCount).fill(null).map(() => linkedinPost),
+        youtube: Array(youtubeCount).fill(null).map(() => youtubePost),
+    };
+};
+
+
+
+// ============================================================================
+// MAIN GENERATION FUNCTION
+// ============================================================================
+async function generatePostsWithGroq(videoData, tone = 'Professional', length, hashtags, historyExamples = [], linkedinCount = 1, youtubeCount = 1, model, apiKey, linkInComments = false) {
+    const currentApiKey = apiKey || process.env.GROQ_API_KEY;
+    const modelName = model || 'llama-3.3-70b-versatile';
+
+    if (!currentApiKey || currentApiKey.toLowerCase().startsWith('your_')) {
+        console.warn('Groq API Key missing or default. Returning mock data.');
+        return generateMockPosts(videoData, tone, linkedinCount, youtubeCount, linkInComments);
+    }
+
+    try {
+        const groqClient = new OpenAI({
+            apiKey: currentApiKey,
+            baseURL: 'https://api.groq.com/openai/v1'
+        });
+
+        const examples = FEW_SHOT_EXAMPLES[tone] || FEW_SHOT_EXAMPLES.Professional;
+
+        const linkInstruction = linkInComments
+            ? 'Do NOT put the video URL in the LinkedIn post body. End the post with "(Link in first comment 👇)" on its own line after the hashtags.'
+            : `Include the video URL (${videoData.url}) in the LinkedIn post body, after the hashtags, on its own line.`;
+
+        const platformRulesWithLink = PLATFORM_RULES.replace('{LINK_INSTRUCTION}', linkInstruction);
+
+        let historySection = '';
+        if (historyExamples && historyExamples.length > 0) {
+            historySection = `
+USER'S PAST POSTS — use these to match their voice and style:
+${historyExamples.map((ex, i) => `[${i + 1}] (${ex.platform}): ${ex.generated_post}`).join('\n\n')}
 `;
-      }
+        }
 
-      // Build the enhanced prompt (exact copy from Gemini)
-      const prompt = `
-${SYSTEM_INSTRUCTION}
+        const variationInstructions = (linkedinCount > 1 || youtubeCount > 1) ? `
+MULTIPLE POSTS — each one MUST use a completely different hook type and angle. No overlap:
+- Post 1: Pick one of: Contrarian Truth, Bold Opinion, Specific Question
+- Post 2: Pick one of: Failure Story, Numbered List Hook
+- Post 3: A completely different angle from posts 1 and 2
+` : '';
 
-VIDEO INFORMATION:
-- Title: ${videoData.title}
-- Channel: ${videoData.channelTitle || 'Unknown'}
-- Description: ${videoData.description}
-- Video URL: ${videoData.url || 'Link not provided'}
-- Tags/Topics: ${videoData.tags?.join(', ') || 'General'}
+        const prompt = `${SYSTEM_INSTRUCTION}
 
-TARGET SETTINGS:
-- Tone: ${tone}
-- Target Length: ${length || 'Medium'}
-- Suggested Hashtags: ${hashtags?.join(', ') || videoData.tags?.slice(0, 5).join(', ') || 'None'}
+${HOOK_FRAMEWORKS}
 
-${HOOK_FORMULAS}
+${platformRulesWithLink}
 
-${ANTI_PATTERNS}
+${historySection}
 
-${PLATFORM_BEST_PRACTICES}
+⚠️ IMPORTANT — READ BEFORE USING THE EXAMPLES BELOW:
+The examples are about MEMORY MANAGEMENT and STACK/HEAP. That is NOT the topic of the video you are writing about.
+Use the examples ONLY to understand the voice, formatting, and structure.
+Do NOT reference, adapt, or mention memory management, stack frames, heap allocation, pointers, or RAM unless the actual video is about those topics.
+If you write about memory management when the video is not about it, you have failed the task.
 
-${userHistorySection}
-
-FEW-SHOT EXAMPLES (General style reference):
-
+EXAMPLES — ${tone} tone (structure/voice only, ignore the topic):
 ${examples.linkedin}
-
 ${examples.youtube}
 
-YOUR TASK:
-Generate ${linkedinCount} LinkedIn ${linkedinCount === 1 ? 'post' : 'posts'} and ${youtubeCount} YouTube ${youtubeCount === 1 ? 'post' : 'posts'} promoting this video.
+═══════════════════════════════════════
+ACTUAL VIDEO — Write your posts ONLY about this:
+Title: ${videoData.title}
+Channel: ${videoData.channelTitle || 'Unknown'}
+Description: ${videoData.description}
+Video URL: ${videoData.url || 'not provided'}
+Tags/Topics: ${videoData.tags?.join(', ') || 'not provided'}
+═══════════════════════════════════════
 
-${linkedinCount > 1 || youtubeCount > 1 ? `VARIATION STRATEGY (when generating multiple posts):
-Post 1 - CURIOSITY-DRIVEN:
-- Lead with an intriguing question or surprising fact
-- Focus on creating mystery and intrigue
-- Best for: Cold audiences, discovery
+Your posts MUST:
+- Be 100% about the actual video above: "${videoData.title}"
+- Reference specific concepts from the title and description above
+- A reader should immediately know this post is about "${videoData.title}", NOT about memory management
 
-Post 2 - VALUE-DRIVEN:
-- Lead with clear benefit or transformation
-- Focus on practical takeaways
-- Best for: Warm audiences, education
+${variationInstructions}
 
-Post 3 - STORY-DRIVEN:
-- Lead with personal narrative or case study
-- Focus on emotional connection
-- Best for: Engaged audiences, inspiration
+GENERATE: ${linkedinCount} LinkedIn post(s) and ${youtubeCount} YouTube Community post(s).
 
-Each variation should use a DIFFERENT hook formula and approach.
-` : ''}
+LINKEDIN REQUIREMENTS:
+- First 2 lines: must make someone feel uncomfortable NOT reading more. A specific insight, a real question, a counterintuitive truth — something that lands.
+- Do NOT write "[See More]" anywhere. Ever. It should never appear in the output.
+- Teach something specific from this video — not "fundamentals are important" (too vague) but the actual concept, named.
+- White space between every paragraph. Short sentences or short bullet points.
+- Hashtags at the very end, 3-5 max.
+- ${linkInstruction}
+- 1,200–1,900 characters total.
 
-Each post MUST:
-1. Start with a powerful hook using one of the 12 viral formulas
-2. Match the ${tone} tone
-3. Reference the video content naturally
-4. Include a clear call-to-action
-5. Follow platform-specific best practices
-6. Avoid all anti-patterns listed above
-7. ALWAYS include the exact Video URL (${videoData.url || 'Link'}) in the post body
+YOUTUBE COMMUNITY REQUIREMENTS:
+- Always include the video URL: ${videoData.url || 'not available'}
+- 80-180 words. Personal, direct.
+- Ask something specific about the video content.
 
-CRITICAL: LinkedIn posts should be longer (150-300 words) with 3-5 hashtags. YouTube posts should be shorter (50-150 words) with 1-2 emojis max. MUST include the Video URL.
+CRITICAL: Do NOT write "[See More]" anywhere in any post. This text should NEVER appear in the output.
 
-FORMATTING INSTRUCTION: 
-Your output is JSON. Inside the JSON string values, you MUST use the "\\n" character to create line breaks. 
-DO NOT produce a single long line of text.
-Example: "Hook line 1\\n\\nHook line 2\\n\\nBody paragraph..."
-
-Output your response as valid JSON in exactly this format:
+Output ONLY valid JSON, no markdown:
 {
-    "linkedin": [${Array(linkedinCount).fill('"post"').join(', ')}],
-    "youtube": [${Array(youtubeCount).fill('"post"').join(', ')}]
-}
-`;
+    "linkedin": [${Array(linkedinCount).fill('"post text"').join(', ')}],
+    "youtube": [${Array(youtubeCount).fill('"post text"').join(', ')}]
+}`;
 
-      const completion = await groq.chat.completions.create({
-         model: 'llama-3.3-70b-versatile',
-         messages: [
-            { role: 'system', content: 'You are a viral social media copywriter. Output only valid JSON.' },
-            { role: 'user', content: prompt }
-         ],
-         response_format: { type: 'json_object' },
-         temperature: 0.7,
-         max_tokens: 4096
-      });
+        const completion = await groqClient.chat.completions.create({
+            model: modelName,
+            messages: [
+                { role: 'system', content: 'You are a social media copywriter for tech content creators. Output only valid JSON. Never write "[See More]" in any post.' },
+                { role: 'user', content: prompt }
+            ],
+            response_format: { type: 'json_object' },
+            temperature: tone === 'Technical' ? 0.5 : tone === 'Professional' ? 0.6 : 0.72,
+            max_tokens: 4096
+        });
 
-      const result = JSON.parse(completion.choices[0].message.content);
-      console.log('✅ Groq generation successful');
-      return result;
+        const result = JSON.parse(completion.choices[0].message.content);
+        console.log('✅ Groq generation successful');
+        return result;
 
-   } catch (error) {
-      console.error('Groq API Error:', error);
-      throw error;
-   }
+    } catch (error) {
+        console.error('Groq API Error:', error);
+        console.warn('⚠️ Returning mock data due to Groq API error');
+        return generateMockPosts(videoData, tone, linkedinCount, youtubeCount, linkInComments);
+    }
 }
 
 module.exports = { generatePostsWithGroq };

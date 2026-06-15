@@ -8,7 +8,7 @@ const { getEffectiveConfig } = require('../helpers/configHelper');
 // POST /api/generate
 router.post('/', async (req, res) => {
     try {
-        const { videoData, tone, length, template, customPrompt, hashtags, linkedinCount = 1, youtubeCount = 1 } = req.body;
+        const { videoData, tone, length, template, customPrompt, hashtags, linkedinCount = 1, youtubeCount = 1, linkInComments = false } = req.body;
 
         // Basic validation
         if (!videoData) {
@@ -29,6 +29,7 @@ router.post('/', async (req, res) => {
         // If it starts with 'gemini', use Google. Otherwise, use Groq.
         if (!model.startsWith('gemini')) {
             console.log(`🚀 Using Groq API for model: ${model}`);
+            const apiKey = await getEffectiveConfig('groq_api_key') || process.env.GROQ_API_KEY;
 
             // Fetch recent history for few-shot learning
             const db = await getDb();
@@ -37,7 +38,7 @@ router.post('/', async (req, res) => {
                 [tone]
             );
 
-            posts = await generatePostsWithGroq(videoData, tone, length, hashtags, historyExamples, linkedinCount, youtubeCount, model);
+            posts = await generatePostsWithGroq(videoData, tone, length, hashtags, historyExamples, linkedinCount, youtubeCount, model, apiKey, linkInComments);
         } else {
             // Use Gemini for gemini models
             console.log('🚀 Using Gemini API');

@@ -9,14 +9,15 @@ const getYoutubeClient = (apiKey) => {
     });
 };
 
-// Mock data for fallback or testing
+// Mock data for fallback or testing (clearly labeled, only used when explicitly needed)
 const getMockVideoData = (url) => ({
-    title: "Mock: How to Build an AI App",
-    description: "In this video, we learn how to build an AI application using React and Node.js. #coding #ai #javascript",
-    tags: ["coding", "ai", "react", "nodejs"],
+    title: "[MOCK] Sample Video",
+    description: "[MOCK DATA — YouTube API key missing or invalid. Real video data was not fetched.]",
+    tags: ["mock"],
     publishedAt: new Date().toISOString(),
-    thumbnail: "https://via.placeholder.com/640x360.png?text=Video+Thumbnail",
-    channelTitle: "Dev Channel"
+    thumbnail: "https://via.placeholder.com/640x360.png?text=Mock+Video",
+    channelTitle: "Mock Channel",
+    isMock: true
 });
 
 async function fetchVideoMetadata(videoUrl, apiKey) {
@@ -37,7 +38,7 @@ async function fetchVideoMetadata(videoUrl, apiKey) {
         const currentApiKey = apiKey || process.env.YOUTUBE_API_KEY;
 
         // 2. Check API Key presence
-        if (!currentApiKey || currentApiKey === 'YOUR_YOUTUBE_API_KEY_HERE') {
+        if (!currentApiKey || currentApiKey.toLowerCase().startsWith('your_')) {
             console.warn('YouTube API Key missing or default. Returning mock data.');
             return getMockVideoData(videoUrl);
         }
@@ -71,8 +72,9 @@ async function fetchVideoMetadata(videoUrl, apiKey) {
 
     } catch (error) {
         console.error('YouTube API Error:', error.message);
-        // Fallback to mock data for end-to-end testing seamlessness
-        return getMockVideoData(videoUrl);
+        // Re-throw the error so the caller knows the fetch failed.
+        // Do NOT silently return mock data — the AI will generate posts about fake content.
+        throw new Error(`Failed to fetch YouTube video metadata: ${error.message}`);
     }
 }
 

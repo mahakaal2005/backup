@@ -32,13 +32,13 @@ export default function ConfigurationPanel({
         });
     };
     return (
-        <div className={`col-span-4 flex flex-col gap-8 ${!generatedPosts ? 'justify-center' : ''}`}>
+        <div className={`col-span-4 flex flex-col gap-8 h-full overflow-y-auto pr-2 ${!generatedPosts ? 'justify-center' : ''}`}>
             {generatedPosts && (
                 <div className="invisible flex p-1.5 border border-transparent">
                     <button className="px-8 py-3 font-medium">LinkedIn</button>
                 </div>
             )}
-            <Card className="flex flex-col gap-8 p-8" glass>
+            <Card className="flex flex-col gap-8 p-8 shrink-0" glass>
                 <div className="flex items-center gap-3 mb-2">
                     <div className="p-3 bg-accent-primary/10 rounded-xl">
                         <SparklesIcon className="w-6 h-6 text-accent-primary" />

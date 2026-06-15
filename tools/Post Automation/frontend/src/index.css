@@ -1,10 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     @apply bg-bg-primary text-text-primary antialiased;
   }
@@ -14,4 +17,25 @@
   .glass-card {
     @apply backdrop-blur-xl bg-white/5 border border-white/10;
   }
+
+  /* Subtle scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.12);
+    border-radius: 99px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.25);
+  }
+
+  /* Arbitrary color helpers */
+  .bg-white\/3 { background-color: rgba(255,255,255,0.03); }
+  .bg-white\/4 { background-color: rgba(255,255,255,0.04); }
+  .bg-white\/8 { background-color: rgba(255,255,255,0.08); }
+  .border-white\/8 { border-color: rgba(255,255,255,0.08); }
 }

@@ -24,8 +24,12 @@ router.get('/', async (req, res) => {
         };
 
         Object.entries(envMapping).forEach(([configKey, envKey]) => {
-            if (process.env[envKey] && !configObj[configKey]) {
-                configObj[configKey] = process.env[envKey];
+            const envVal = process.env[envKey];
+            if (envVal && !configObj[configKey]) {
+                // Ignore placeholder text so the frontend correctly shows it's empty
+                if (!envVal.toLowerCase().startsWith('your_')) {
+                    configObj[configKey] = envVal;
+                }
             }
         });
 
